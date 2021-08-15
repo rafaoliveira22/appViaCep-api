@@ -5,7 +5,7 @@
 <br>
 O **Aplicativo ViaCep** é  utilizado pra verificar o **seu endereço**. Você que deseja verificar o endereço,é simples e rapido,basta abrir,digitar o seu CEP,clicar em Consultar  e pronto,aparecerá o endereço ai na sua tela !!!
 
-<div>
+<div align="center">
     <img src="about/tela01.png" alt="imagem mostrando a tela01 do aplicativo">
     <img src="about/tela02.png" alt="imagem mostrando a tela02 do aplicativo">
 </div>
