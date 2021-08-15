@@ -19,21 +19,28 @@ class Consult extends Component{
 
         // ESTADOS
         this.state={
-            valorCep : 0
+            valorStreet:0,
+            valorDistrict:0,
+            valorCity:0
         };
     }
 
 
-    //DIDMOUNT - DEPOIS QUE O APLICATIVO FOR INICIADO,ELE EXECEUTA
-    async componentDidMount(){
+    // FUNÇÃO PARA CONSULTAR O CEP
+    async consultCep(){
         const response = await api.get('06520620/json');
-
-        let cep = response.data['cep'];
-
+    
+        //ARMAZENANDO VALOR DA API
+        let street = response.data['logradouro'];
+        let district = response.data['bairro'];
+        let city = response.data['localidade'];
+    
         this.setState({
-            valorCep:cep
+            valorStreet:street,
+            valorDistrict:district,
+            valorCity:city
         });
-    }
+    }//function
 
 
     //RENDERIZAÇÃO DA TELA
@@ -71,8 +78,9 @@ class Consult extends Component{
                     <TextInput 
                         style={styles.input} 
                         placeholder="CEP..."
-                        placeholderTextColor="#AAAAAA"/>
-                    <TouchableOpacity style={styles.button}>
+                        placeholderTextColor="#AAAAAA"
+                        />
+                    <TouchableOpacity style={styles.button} onPress={this.consultCep}>
                         <Text style={styles.buttonText}>Consultar</Text>
                     </TouchableOpacity>
                 </View>
@@ -81,9 +89,9 @@ class Consult extends Component{
                 <ScrollView style={styles.result}>
                     <Text style={styles.titleResult}>Resultado</Text>
                     
-                    <Text style={styles.resultConsult}>Rua</Text>
-                    <Text style={styles.resultConsult}>Bairro: </Text>
-                    <Text style={styles.resultConsult}>Cidade: </Text>
+                    <Text style={styles.resultConsult}>Logradouro: {this.state.valorStreet}</Text>
+                    <Text style={styles.resultConsult}>Bairro: {this.state.valorDistrict}</Text>
+                    <Text style={styles.resultConsult}>Cidade: {this.state.valorCity}</Text>
                 </ScrollView>
             </View>
         );
