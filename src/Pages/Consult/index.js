@@ -79,6 +79,7 @@ class Consult extends Component{
                         style={styles.input} 
                         placeholder="CEP..."
                         placeholderTextColor="#AAAAAA"
+                        keyboardType = 'numeric'
                         />
                     <TouchableOpacity style={styles.button} onPress={this.consultCep}>
                         <Text style={styles.buttonText}>Consultar</Text>
@@ -86,12 +87,24 @@ class Consult extends Component{
                 </View>
 
                 {/*RESULTADOS*/}
-                <ScrollView style={styles.result}>
+                <ScrollView style={styles.resultContainer}>
                     <Text style={styles.titleResult}>Resultado</Text>
                     
-                    <Text style={styles.resultConsult}>Logradouro: {this.state.valorStreet}</Text>
-                    <Text style={styles.resultConsult}>Bairro: {this.state.valorDistrict}</Text>
-                    <Text style={styles.resultConsult}>Cidade: {this.state.valorCity}</Text>
+                    <View style={styles.result}>
+                        <Image style={styles.iconResult} source={require('../../assets/icon/icon-street-black.png')} />
+                        <Text style={styles.resultConsult}>Logradouro: {this.state.valorStreet}</Text>
+                    </View>
+
+                    <View style={styles.result}>
+                        <Image style={styles.iconResult} source={require('../../assets/icon/icon-district.png')} />
+                        <Text style={styles.resultConsult}>Bairro: {this.state.valorDistrict}</Text>
+                    </View>
+                
+                    <View style={styles.result}>
+                        <Image style={styles.iconResult} source={require('../../assets/icon/icon-city.png')} />                    
+                        <Text style={styles.resultConsult}>Cidade: {this.state.valorCity}</Text>
+                    </View>
+
                 </ScrollView>
             </View>
         );
@@ -185,6 +198,9 @@ const styles = StyleSheet.create({
         borderBottomColor:'#3065AC',
 
         marginTop:40,
+        color:'#AAAAAA',
+        fontSize:20,
+        fontWeight:'bold'
     },
 
     // BUTTON CONSULTAR  ---
@@ -212,7 +228,7 @@ const styles = StyleSheet.create({
 
 
     // RESULT ---
-    result:{
+    resultContainer:{
         alignSelf:'center'
     },
 
@@ -224,15 +240,27 @@ const styles = StyleSheet.create({
     },
 
     resultConsult:{
+        padding:20,
         fontSize:24,
+    },
 
+    result:{
+        flex:1,
+        flexDirection:'row',
+        alignItems:'center',
         borderRadius:15,
         borderWidth:2,
         borderColor:'#3065AC',
-        padding:20,
         marginTop:10,
         width:350,
         backgroundColor:'#fff'
+    },
+
+    iconResult:{
+        width:60,
+        height:60,
+
+        marginLeft:20,
     }
 });
 
