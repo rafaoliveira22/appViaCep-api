@@ -27,16 +27,18 @@ export default function Home() {
         <Text style={styles.subtitle}>Bora Conhecer?</Text>
 
         <Image
-        style={styles.image}
-        source={require('../../assets/img/imagePage.png')}
+          style={styles.image}
+          source={require('../../assets/img/imagePage.png')}
        />
       </View>
       
 
     
-    <View style={styles.button_container} >
-      <TouchableOpacity style={styles.button} onPress={openScreenConsult}>
-        <Text style={styles.button_text}>Começar</Text>
+    <View style={styles.buttonContainer} >
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={openScreenConsult}>
+        <Text style={styles.buttonText}>Começar</Text>
       </TouchableOpacity>
     </View>
 
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#3065AC',
   },
 
+  // TITLES ---
   title:{
     color:'#fff',
     fontSize:40,
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
     marginBottom:20,
   },
 
-  button_container:{
+  buttonContainer:{
     flex:1,
     alignItems:'center',
     justifyContent:'center',
@@ -83,6 +86,7 @@ const styles = StyleSheet.create({
     marginRight:20,
   },
 
+  // BUTTON  ---
   button:{
     flex:1,
     alignItems:'center',
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
     width:'100%',
   },
 
-  button_text:{
+  buttonText:{
     fontSize:30,
     fontWeight:'bold',
     color:'#3065AC',

@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 import {
     View,
+    KeyboardAvoidingView,
+    Keyboard,
     Text,
     StyleSheet,
     Image,
@@ -13,38 +15,31 @@ import {
 import api from '../../services/api';
 
 
-class Consult extends Component{
-    constructor(props){
-        super(props);
+function Consult(){
 
-        // ESTADOS
-        this.state={
-            valorStreet:0,
-            valorDistrict:0,
-            valorCity:0
-        };
-    }
+    //armazenamento do cep
+    let [cep, setCep] = useState('');
+    let [cepUser, setCepUser] = useState(null);
 
+    async function consultCep(){
+        if(cep == ''){
+            alert("Inválido! Digite um cep válido");
+            setCep('');
+            setCepUser(null);
 
-    // FUNÇÃO PARA CONSULTAR O CEP
-    async consultCep(){
-        const response = await api.get('06520620/json');
-    
-        //ARMAZENANDO VALOR DA API
-        let street = response.data['logradouro'];
-        let district = response.data['bairro'];
-        let city = response.data['localidade'];
-    
-        this.setState({
-            valorStreet:street,
-            valorDistrict:district,
-            valorCity:city
-        });
-    }//function
-
+        } 
+        try {
+            const response = await api.get(cep + '/json/');
+            console.log(response.data);
+            setCepUser(response.data);
+            Keyboard.dismiss();
+        } catch(erro){
+            setCepUser(null);
+            alert("CEP não encontrado! Tente novamente ou volte mais tarde");
+        }
+    }//func buscaCep
 
     //RENDERIZAÇÃO DA TELA
-    render(){
         return(
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
@@ -80,36 +75,36 @@ class Consult extends Component{
                         placeholder="CEP..."
                         placeholderTextColor="#AAAAAA"
                         keyboardType = 'numeric'
-                        />
-                    <TouchableOpacity style={styles.button} onPress={this.consultCep}>
+                        value={cep}
+                        onChangeText={ (valor) => setCepUser(valor) }
+                    />
+                    <TouchableOpacity style={styles.button} onPress={consultCep}>
                         <Text style={styles.buttonText}>Consultar</Text>
                     </TouchableOpacity>
                 </View>
 
                 {/*RESULTADOS*/}
-                <ScrollView style={styles.resultContainer}>
-                    <Text style={styles.titleResult}>Resultado</Text>
-                    
-                    <View style={styles.result}>
-                        <Image style={styles.iconResult} source={require('../../assets/icon/icon-street-black.png')} />
-                        <Text style={styles.resultConsult}>Logradouro: {this.state.valorStreet}</Text>
-                    </View>
-
-                    <View style={styles.result}>
-                        <Image style={styles.iconResult} source={require('../../assets/icon/icon-district.png')} />
-                        <Text style={styles.resultConsult}>Bairro: {this.state.valorDistrict}</Text>
-                    </View>
+                    <ScrollView style={styles.resultContainer}>
+                        <Text style={styles.titleResult}>Resultado</Text>
+                                    
+                        <View style={styles.result}>
+                            <Image style={styles.iconResult} source={require('../../assets/icon/icon-street-black.png')} />
+                            <Text style={styles.resultConsult}>Logradouro: {cepUser.logradouro}</Text>
+                        </View>
                 
-                    <View style={styles.result}>
-                        <Image style={styles.iconResult} source={require('../../assets/icon/icon-city.png')} />                    
-                        <Text style={styles.resultConsult}>Cidade: {this.state.valorCity}</Text>
-                    </View>
-
-                </ScrollView>
+                        <View style={styles.result}>
+                            <Image style={styles.iconResult} source={require('../../assets/icon/icon-district.png')} />
+                            <Text style={styles.resultConsult}>Bairro: {cepUser.bairro}</Text>
+                        </View>
+                                
+                        <View style={styles.result}>
+                            <Image style={styles.iconResult} source={require('../../assets/icon/icon-city.png')} />                    
+                            <Text style={styles.resultConsult}>Cidade: {cepUser.localidade}</Text>
+                        </View>
+                    </ScrollView>
             </View>
         );
-    }//render
-}//class
+}//func
 
 
 export default Consult;
@@ -197,10 +192,11 @@ const styles = StyleSheet.create({
         borderColor:'#FDF396',
         borderBottomColor:'#3065AC',
 
-        marginTop:40,
+        
         color:'#AAAAAA',
         fontSize:20,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        height:80
     },
 
     // BUTTON CONSULTAR  ---
@@ -241,7 +237,8 @@ const styles = StyleSheet.create({
 
     resultConsult:{
         padding:20,
-        fontSize:24,
+        fontSize:18,
+        fontWeight: 'bold'
     },
 
     result:{
