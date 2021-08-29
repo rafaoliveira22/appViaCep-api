@@ -29,7 +29,7 @@ function Consult(){
 
         } 
         try {
-            const response = await api.get(cep + '/json/');
+            const response = await api.get('06526020/json/');
             console.log(response.data);
             setCepUser(response.data);
             Keyboard.dismiss();
@@ -84,24 +84,27 @@ function Consult(){
                 </View>
 
                 {/*RESULTADOS*/}
-                    <ScrollView style={styles.resultContainer}>
-                        <Text style={styles.titleResult}>Resultado</Text>
+                    {
+                     cepUser&&
+                        <ScrollView style={styles.resultContainer}>
+                            <Text style={styles.titleResult}>Resultado</Text>
+                                        
+                            <View style={styles.result}>
+                                <Image style={styles.iconResult} source={require('../../assets/icon/icon-street-black.png')} />
+                                <Text style={styles.resultConsult}>Logradouro: {cepUser.logradouro}</Text>
+                            </View>
+                    
+                            <View style={styles.result}>
+                                <Image style={styles.iconResult} source={require('../../assets/icon/icon-district.png')} />
+                                <Text style={styles.resultConsult}>Bairro: {cepUser.bairro}</Text>
+                            </View>
                                     
-                        <View style={styles.result}>
-                            <Image style={styles.iconResult} source={require('../../assets/icon/icon-street-black.png')} />
-                            <Text style={styles.resultConsult}>Logradouro: {cepUser.logradouro}</Text>
-                        </View>
-                
-                        <View style={styles.result}>
-                            <Image style={styles.iconResult} source={require('../../assets/icon/icon-district.png')} />
-                            <Text style={styles.resultConsult}>Bairro: {cepUser.bairro}</Text>
-                        </View>
-                                
-                        <View style={styles.result}>
-                            <Image style={styles.iconResult} source={require('../../assets/icon/icon-city.png')} />                    
-                            <Text style={styles.resultConsult}>Cidade: {cepUser.localidade}</Text>
-                        </View>
-                    </ScrollView>
+                            <View style={styles.result}>
+                                <Image style={styles.iconResult} source={require('../../assets/icon/icon-city.png')} />                    
+                                <Text style={styles.resultConsult}>Cidade: {cepUser.localidade}</Text>
+                            </View>
+                        </ScrollView>
+                    }
             </View>
         );
 }//func
